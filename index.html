@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Report System</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+<!-- ================= LOGIN PAGE ================= -->
+<div id="loginPage" class="login-page">
+    <div class="login-container">
+        <div class="login-left">
+            <div class="logo-box">SR</div>
+            <h2>Student Report System</h2>
+            <p class="system-subtitle">Academic Management System</p>
+            <h1>Welcome Back</h1>
+            <p class="welcome-text">
+                Manage student academic performance, attendance and reports from one place.
+            </p>
+            <div class="features">
+                <div class="feature"><span>Student Management</span></div>
+                <div class="feature"><span>Performance Tracking</span></div>
+                <div class="feature"><span>Student Reports</span></div>
+            </div>
+        </div>
+
+        <div class="login-right">
+            <div class="login-card">
+                <div class="login-icon">SR</div>
+
+                <!-- LOGIN STEP -->
+                <div id="loginStep">
+                    <h2>Sign In</h2>
+                    <p class="login-description">Select your login type and enter your credentials</p>
+
+                    <div class="role-selector">
+                        <button type="button" id="adminRoleBtn" class="role-btn active" onclick="selectLoginRole('admin')">Admin Login</button>
+                        <button type="button" id="studentRoleBtn" class="role-btn" onclick="selectLoginRole('student')">Student Login</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username / Email</label>
+                        <input type="text" id="username" placeholder="Enter username or email" autocomplete="username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter password" autocomplete="current-password">
+                    </div>
+
+                    <button type="button" class="btn btn-primary login-btn" onclick="login()">Sign In</button>
+
+                    <p class="signup-text">
+                        New User? <a href="admin-signup.html" id="createAccountLink">Create Account</a>
+                    </p>
+
+                    <div class="demo-login" id="loginDemo">
+                        Admin Login: <strong>admin / 1234</strong>
+                    </div>
+                </div>
+
+                <!-- OTP STEP -->
+                <div id="otpStep" style="display:none;">
+                    <div class="otp-icon">OTP</div>
+                    <h2>Verify OTP</h2>
+                    <p class="login-description">Enter the 6-digit OTP to continue</p>
+
+                    <div class="otp-demo">
+                        <span>Demo OTP</span>
+                        <strong id="generatedOTP">------</strong>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="otpInput">Enter OTP</label>
+                        <input type="text" id="otpInput" maxlength="6" placeholder="Enter 6-digit OTP" inputmode="numeric">
+                    </div>
+
+                    <button type="button" class="btn btn-primary login-btn" onclick="verifyOTP()">Verify OTP</button>
+                    <button type="button" class="resend-btn" onclick="generateOTP()">Generate New OTP</button>
+                    <button type="button" class="back-login-btn" onclick="backToLogin()">Back to Login</button>
+                    <p id="otpMessage" class="otp-message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= ADMIN PORTAL ================= -->
+<div id="portal" class="portal" style="display:none;">
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="brand-icon">SR</div>
+            <div>
+                <h2>Student Report</h2>
+                <span>Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" onclick="showSection('dashboardSection', this); return false;">Dashboard</a>
+            <a href="#" class="nav-item" onclick="showSection('studentsSection', this); return false;">Students</a>
+            <a href="#" class="nav-item" onclick="showSection('reportsSection', this); return false;">Reports</a>
+            <a href="#" class="nav-item" onclick="showSection('performanceSection', this); return false;">Performance</a>
+            <a href="#" class="nav-item" onclick="showSection('settingsSection', this); return false;">Settings</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-btn" onclick="toggleSidebar()">Menu</button>
+                <div>
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p id="pageSubtitle">Overview of student academic performance</p>
+                </div>
+            </div>
+
+            <div class="admin-profile">
+                <div class="profile-icon">A</div>
+                <div>
+                    <strong>Admin</strong>
+                    <span>Administrator</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD SECTION -->
+        <section id="dashboardSection" class="content-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div>
+                        <span>Total Students</span>
+                        <h2 id="totalStudents">0</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div>
+                        <span>Average Marks</span>
+                        <h2 id="averageMarks">0%</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div>
+                        <span>Average Attendance</span>
+                        <h2 id="averageAttendance">0%</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div>
+                        <span>Top Grade</span>
+                        <h2 id="topGrade">-</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>Recent Students</h3>
+                            <p>Recently added students</p>
+                        </div>
+                    </div>
+                    <div id="recentStudents"></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>Performance Overview</h3>
+                            <p>Grade distribution</p>
+                        </div>
+                    </div>
+                    <div class="performance-summary">
+                        <div class="performance-item"><span>Excellent</span><strong id="excellentCount">0</strong></div>
+                        <div class="performance-item"><span>Good</span><strong id="goodCount">0</strong></div>
+                        <div class="performance-item"><span>Average</span><strong id="averageCount">0</strong></div>
+                        <div class="performance-item"><span>Poor</span><strong id="poorCount">0</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STUDENTS SECTION -->
+        <section id="studentsSection" class="content-section">
+            <div class="section-header">
+                <div>
+                    <h2>Student Management</h2>
+                    <p>Add and manage student information</p>
+                </div>
+                <button class="btn btn-primary" onclick="openStudentModal()">Add Student</button>
+            </div>
+
+            <div class="filter-bar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by name or roll number" oninput="displayStudents()">
+                </div>
+                <select id="gradeFilter" onchange="displayStudents()">
+                    <option value="all">All Grades</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="F">F</option>
+                </select>
+            </div>
+
+            <div id="studentsGrid" class="students-grid"></div>
+        </section>
+
+        <!-- REPORTS SECTION -->
+        <section id="reportsSection" class="content-section">
+            <div class="section-header">
+                <div>
+                    <h2>Student Reports</h2>
+                    <p>View detailed academic reports</p>
+                </div>
+            </div>
+            <div id="reportStudents" class="report-students"></div>
+        </section>
+
+        <!-- PERFORMANCE SECTION -->
+        <section id="performanceSection" class="content-section">
+            <div class="section-header">
+                <div>
+                    <h2>Performance Analysis</h2>
+                    <p>Overall academic performance</p>
+                </div>
+            </div>
+
+            <div class="performance-grid">
+                <div class="performance-card">
+                    <h3>Average Marks</h3>
+                    <div id="marksCircle" class="circle-progress">
+                        <div class="circle-inner">
+                            <strong id="performanceMarks">0%</strong>
+                            <span>Marks</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>Attendance</h3>
+                    <div id="attendanceCircle" class="circle-progress">
+                        <div class="circle-inner">
+                            <strong id="performanceAttendance">0%</strong>
+                            <span>Attendance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>Pass Percentage</h3>
+                    <div id="passCircle" class="circle-progress">
+                        <div class="circle-inner">
+                            <strong id="passPercentage">0%</strong>
+                            <span>Passed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card grade-distribution">
+                <h3>Grade Distribution</h3>
+                <div class="grade-bars">
+                    <div class="grade-bar-item">
+                        <span>A+</span>
+                        <div class="bar"><div id="excellentBar" class="bar-fill"></div></div>
+                        <strong id="excellentBarCount">0</strong>
+                    </div>
+                    <div class="grade-bar-item">
+                        <span>A</span>
+                        <div class="bar"><div id="goodBar" class="bar-fill"></div></div>
+                        <strong id="goodBarCount">0</strong>
+                    </div>
+                    <div class="grade-bar-item">
+                        <span>B/C</span>
+                        <div class="bar"><div id="averageBar" class="bar-fill"></div></div>
+                        <strong id="averageBarCount">0</strong>
+                    </div>
+                    <div class="grade-bar-item">
+                        <span>D/F</span>
+                        <div class="bar"><div id="poorBar" class="bar-fill"></div></div>
+                        <strong id="poorBarCount">0</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SETTINGS SECTION -->
+        <section id="settingsSection" class="content-section">
+            <div class="settings-card">
+                <h2>System Settings</h2>
+                <div class="setting-item">
+                    <div>
+                        <h3>Local Storage</h3>
+                        <p>Student and user data is stored in browser Local Storage.</p>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div>
+                        <h3>OTP Login</h3>
+                        <p>A random 6-digit OTP is generated after successful login credentials.</p>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div>
+                        <h3>Technology</h3>
+                        <p>This project uses HTML, CSS and JavaScript.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-card" style="margin-top: 25px; border: 1px solid #fee2e2;">
+                <div class="setting-item">
+                    <div>
+                        <h3 style="color: #dc2626;">Reset System & Delete All Registered Accounts</h3>
+                        <p>Wipe all student registrations, examination marks, and performance history permanently.</p>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger" style="background: #dc2626; color: white; width: 100%; margin-top: 15px; padding: 13px; font-weight: bold;" onclick="adminResetSystem()">
+                    Reset All Data & Registered Accounts
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- ADD STUDENT MODAL -->
+    <div id="studentModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2>Add Student</h2>
+                    <p>Enter student academic details</p>
+                </div>
+                <button class="modal-close" onclick="closeStudentModal()">X</button>
+            </div>
+
+            <form id="studentForm" onsubmit="addStudent(); return false;">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="studentName">Student Name</label>
+                        <input type="text" id="studentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentRoll">Roll Number</label>
+                        <input type="text" id="studentRoll" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentDepartment">Department</label>
+                        <input type="text" id="studentDepartment" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentYear">Year</label>
+                        <select id="studentYear" required>
+                            <option value="">Select Year</option>
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentMarks">Marks</label>
+                        <input type="number" id="studentMarks" min="0" max="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentAttendance">Attendance</label>
+                        <input type="number" id="studentAttendance" min="0" max="100" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="studentRemarks">Remarks</label>
+                        <textarea id="studentRemarks" rows="3" placeholder="Enter remarks"></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeStudentModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- REPORT MODAL -->
+    <div id="reportModal" class="modal" style="display:none;">
+        <div class="modal-content report-modal">
+            <div class="modal-header">
+                <div>
+                    <h2>Student Report</h2>
+                    <p>Detailed academic information</p>
+                </div>
+                <button class="modal-close" onclick="closeReport()">X</button>
+            </div>
+            <div id="modalReportContent" class="report-content"></div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeReport()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./script.js"></script>
+</body>
+</html>

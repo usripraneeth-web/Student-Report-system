@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Student Report System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="portal student-portal">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="brand-icon">SR</div>
+            <div>
+                <h2>Student Report</h2>
+                <span>Student Panel</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" onclick="showUserSection('userDashboardSection', this); return false;">Dashboard</a>
+            <a href="#" class="nav-item" onclick="showUserSection('userReportSection', this); return false;">My Report</a>
+            <a href="#" class="nav-item" onclick="showUserSection('userPerformanceSection', this); return false;">Performance</a>
+            <a href="#" class="nav-item" onclick="showUserSection('userProfileSection', this); return false;">Profile</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="userLogout()">Logout</button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-btn" onclick="toggleStudentSidebar()">Menu</button>
+                <div>
+                    <h1 id="userPageTitle">Dashboard</h1>
+                    <p id="userPageSubtitle">Overview of your academic performance</p>
+                </div>
+            </div>
+
+            <div class="admin-profile">
+                <div class="profile-icon">S</div>
+                <div>
+                    <strong id="userTopName">Student</strong>
+                    <span>Student</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section id="userDashboardSection" class="content-section active">
+            <div class="section-header">
+                <div>
+                    <h2>Welcome, <span id="dashboardUserName">Student</span></h2>
+                    <p>Overview of your academic performance</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div><span>Student</span><h2 id="userName">Student</h2></div>
+                </div>
+                <div class="stat-card">
+                    <div><span>My Marks</span><h2 id="userAverageMarks">0%</h2></div>
+                </div>
+                <div class="stat-card">
+                    <div><span>My Attendance</span><h2 id="userAverageAttendance">0%</h2></div>
+                </div>
+                <div class="stat-card">
+                    <div><span>My Grade</span><h2 id="userGrade">-</h2></div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>My Academic Summary</h3>
+                            <p>Your current academic details</p>
+                        </div>
+                    </div>
+                    <div class="performance-summary">
+                        <div class="performance-item"><span>Marks</span><strong id="summaryMarks">0%</strong></div>
+                        <div class="performance-item"><span>Attendance</span><strong id="summaryAttendance">0%</strong></div>
+                        <div class="performance-item"><span>Grade</span><strong id="summaryGrade">-</strong></div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div>
+                            <h3>Account Information</h3>
+                            <p>Your registered details</p>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div>
+                            <h3 id="displayUserName">Student</h3>
+                            <p id="displayUserEmail">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MY REPORT -->
+        <section id="userReportSection" class="content-section">
+            <div class="section-header">
+                <div>
+                    <h2>My Report</h2>
+                    <p>View your academic report</p>
+                </div>
+            </div>
+            <div id="userReports" class="user-report-grid"></div>
+        </section>
+
+        <!-- PERFORMANCE -->
+        <section id="userPerformanceSection" class="content-section">
+            <div class="section-header">
+                <div>
+                    <h2>My Performance</h2>
+                    <p>View your academic performance</p>
+                </div>
+            </div>
+
+            <div class="performance-grid">
+                <div class="performance-card">
+                    <h3>Marks</h3>
+                    <div id="studentMarksCircle" class="circle-progress">
+                        <div class="circle-inner">
+                            <strong id="performanceMarks">0%</strong>
+                            <span>Marks</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>Attendance</h3>
+                    <div id="studentAttendanceCircle" class="circle-progress">
+                        <div class="circle-inner">
+                            <strong id="performanceAttendance">0%</strong>
+                            <span>Attendance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="performance-card">
+                    <h3>Grade</h3>
+                    <div id="studentGradeCircle" class="circle-progress">
+                        <div class="circle-inner">
+                            <strong id="performanceGrade">-</strong>
+                            <span>Grade</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card grade-distribution">
+                <h3>Performance Details</h3>
+                <div class="grade-bars">
+                    <div class="grade-bar-item">
+                        <span>Marks</span>
+                        <div class="bar"><div id="studentMarksBar" class="bar-fill"></div></div>
+                        <strong id="studentMarksBarCount">0%</strong>
+                    </div>
+                    <div class="grade-bar-item">
+                        <span>Attendance</span>
+                        <div class="bar"><div id="studentAttendanceBar" class="bar-fill"></div></div>
+                        <strong id="studentAttendanceBarCount">0%</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROFILE -->
+        <section id="userProfileSection" class="content-section">
+            <div class="section-header">
+                <div>
+                    <h2>My Profile</h2>
+                    <p>View and manage your account information</p>
+                </div>
+                <button class="btn btn-primary" onclick="openEditProfileModal()">Edit Profile</button>
+            </div>
+
+            <div class="settings-card">
+                <div class="setting-item">
+                    <div>
+                        <h3>Student Name</h3>
+                        <p id="profileUserName">Student</p>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div>
+                        <h3>Email</h3>
+                        <p id="profileUserEmail">-</p>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div>
+                        <h3>Phone Number</h3>
+                        <p id="profileUserPhone">-</p>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div>
+                        <h3>Date of Birth</h3>
+                        <p id="profileUserDOB">-</p>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div>
+                        <h3>Role</h3>
+                        <p>Student</p>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <div>
+                        <h3>Login Security</h3>
+                        <p>OTP verification enabled</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DELETE ACCOUNT CARD -->
+            <div class="settings-card" style="margin-top: 25px; border: 1px solid #fee2e2;">
+                <div class="setting-item">
+                    <div>
+                        <h3 style="color: #dc2626;">Delete Account</h3>
+                        <p>Delete your registered account and all academic data permanently.</p>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger" style="background: #dc2626; color: white; width: 100%; margin-top: 15px; padding: 12px; font-weight: bold;" onclick="deleteMyAccount()">
+                    Delete My Account Permanently
+                </button>
+            </div>
+
+            <!-- EDIT PROFILE MODAL -->
+            <div id="editProfileModal" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h2>Edit Profile Details</h2>
+                            <p>Update your personal information</p>
+                        </div>
+                        <button class="modal-close" onclick="closeEditProfileModal()">X</button>
+                    </div>
+
+                    <form id="editProfileForm" onsubmit="saveEditedProfile(event)">
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label for="editName">Full Name</label>
+                                <input type="text" id="editName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editPhone">Phone Number</label>
+                                <input type="tel" id="editPhone" placeholder="Enter phone number" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editDOB">Date of Birth</label>
+                                <input type="date" id="editDOB" required>
+                            </div>
+                        </div>
+
+                        <div class="modal-actions" style="margin-top: 20px;">
+                            <button type="button" class="btn btn-secondary" onclick="closeEditProfileModal()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

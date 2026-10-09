@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration - Student Report System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="signup-page">
+    <div class="signup-card" style="max-width: 650px;">
+        <div class="login-icon">User</div>
+        <h2>Student Registration</h2>
+        <p class="login-description">Enter your complete academic and personal details</p>
+
+        <form id="studentSignupForm" onsubmit="studentFullSignup(event)">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="regName">Full Name</label>
+                    <input type="text" id="regName" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" required placeholder="Enter email address">
+                </div>
+
+                <div class="form-group">
+                    <label for="regPhone">Phone Number</label>
+                    <input type="tel" id="regPhone" required placeholder="10-digit mobile number">
+                </div>
+
+                <div class="form-group">
+                    <label for="regDOB">Date of Birth</label>
+                    <input type="date" id="regDOB" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="regRoll">Roll Number / Reg ID</label>
+                    <input type="text" id="regRoll" required placeholder="e.g. 2300030001">
+                </div>
+
+                <div class="form-group">
+                    <label for="regDept">Department</label>
+                    <input type="text" id="regDept" required placeholder="e.g. CSE / AI & ML">
+                </div>
+
+                <div class="form-group">
+                    <label for="regMarks">Marks (out of 100)</label>
+                    <input type="number" id="regMarks" min="0" max="100" required placeholder="0-100">
+                </div>
+
+                <div class="form-group">
+                    <label for="regAttendance">Attendance (%)</label>
+                    <input type="number" id="regAttendance" min="0" max="100" required placeholder="0-100">
+                </div>
+
+                <div class="form-group">
+                    <label for="regPass">Password</label>
+                    <input type="password" id="regPass" required placeholder="Create password">
+                </div>
+
+                <div class="form-group">
+                    <label for="regConfirmPass">Confirm Password</label>
+                    <input type="password" id="regConfirmPass" required placeholder="Confirm password">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary login-btn" style="margin-top: 15px;">Complete Registration</button>
+            <p id="signupMessage" class="signup-message"></p>
+        </form>
+
+        <p class="signup-text">
+            Already have an account? <a href="index.html">Sign In</a>
+        </p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
